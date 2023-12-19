@@ -33,7 +33,7 @@ import com.example.news.View.ui.theme.NewsTheme
 class Home : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            
+
         setContent {
             Scaffold(
                 bottomBar = { ButtomAppBarComp()}
