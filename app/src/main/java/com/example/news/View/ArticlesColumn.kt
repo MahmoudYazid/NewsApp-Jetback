@@ -24,14 +24,14 @@ fun ArticleCoulmn(){
     Box (
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.Black)
+            .background(Color.White)
             .fillMaxHeight()
     ){
         Column (    modifier = Modifier
             .padding(5.dp)
 
             .fillMaxWidth()
-            .background(Color.Black)
+            .background(Color.White)
             .fillMaxHeight(),
             verticalArrangement = Arrangement.spacedBy(10.dp)){
             for (x in 1..100 ){
@@ -51,7 +51,7 @@ fun Card() {
             .fillMaxWidth()
             .height(200.dp)
             .clip(shape = RoundedCornerShape(15.dp, 15.dp, 15.dp, 15.dp)) // Adjust the corner radius as needed
-            .background(Color.Red)
+            .background(Color.Black)
     ) {
         // Your card content goes here
     }
