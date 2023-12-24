@@ -47,9 +47,9 @@ class Home : ComponentActivity() {
                         .background(color = Color.White)
                 ) {
                     searchBarActivity()
-                    Letest_News()
+                    Letest_News("Latest News")
                     LetestNewsScroller()
-                    ClassificationScroller()
+                    Letest_News("All Articles")
                     ArticleCoulmn()
                 }
             }

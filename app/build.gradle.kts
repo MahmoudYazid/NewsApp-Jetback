@@ -63,9 +63,19 @@ dependencies {
     implementation ("androidx.compose.runtime:runtime-livedata:1.0.7")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
 
+    implementation ("io.ktor:ktor-client-android:1.5.0")
+    implementation ("io.ktor:ktor-client-serialization:1.5.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
+    implementation ("io.ktor:ktor-client-logging-jvm:1.5.0")
+
+
+
+    implementation("io.coil-kt:coil-compose:2.0.0-rc01")
+
     implementation ("androidx.activity:activity-compose:1.4.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
     implementation ("androidx.compose.runtime:runtime-livedata:1.0.4")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1")
 
 // Retrofit for network requests
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")

@@ -1,6 +1,7 @@
 package com.example.news.View
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,9 +26,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.unit.dp
 @Composable
 fun ButtomAppBarComp() {
+    val UrlHandler = LocalUriHandler.current
     BottomAppBar(
 
         modifier = Modifier
@@ -45,36 +49,12 @@ fun ButtomAppBarComp() {
                 .fillMaxWidth()
                 .fillMaxHeight()
         ){
+
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .background(Color.White)
-            ){
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                    ,verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
 
-
-                ) {
-                    Icon(
-
-                        Icons.Filled.Home,
-                        "",
-                        tint = Color(0xFFFF3A44),
-                        modifier = Modifier
-                            .size(50.dp)
-                            .background(Color.White)
-                    )
-                    Text(text = "Home")
-                }
-            }
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .background(Color.White)
             ){
                 Column(
                     modifier = Modifier
@@ -98,9 +78,13 @@ fun ButtomAppBarComp() {
                 }
             }
             Box(
+
                 modifier = Modifier
                     .weight(1f)
                     .background(Color.White)
+                    .clickable {
+                        UrlHandler.openUri("https://www.linkedin.com/in/mahmoudyazid/")
+                    }
             ){
                 Column(
                     modifier = Modifier
