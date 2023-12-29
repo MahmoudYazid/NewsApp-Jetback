@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -30,11 +31,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -50,6 +51,47 @@ android {
 }
 
 dependencies {
+    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    val room_version = "2.6.1"
+
+    implementation ("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+    implementation ("androidx.room:room-ktx:$room_version") // Add Room Kotlin extensions
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
+
+
+    // To use Kotlin Symbol Processing (KSP)
+
+
+    val nav_version = "2.7.6"
+
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+
+    // optional - RxJava2 support for Room
+    implementation("androidx.room:room-rxjava2:$room_version")
+
+    // optional - RxJava3 support for Room
+    implementation("androidx.room:room-rxjava3:$room_version")
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation("androidx.room:room-guava:$room_version")
+
+    // optional - Test helpers
+    testImplementation("androidx.room:room-testing:$room_version")
+
+    // optional - Paging 3 Integration
+    implementation("androidx.room:room-paging:$room_version")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("com.google.android.gms:play-services-wallet:19.2.1")
@@ -59,9 +101,9 @@ dependencies {
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
-    implementation ("androidx.compose.runtime:runtime-livedata:1.0.7")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     implementation ("io.ktor:ktor-client-android:1.5.0")
     implementation ("io.ktor:ktor-client-serialization:1.5.0")
@@ -70,19 +112,17 @@ dependencies {
 
 
 
-    implementation("io.coil-kt:coil-compose:2.0.0-rc01")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
-    implementation ("androidx.activity:activity-compose:1.4.0")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
-    implementation ("androidx.compose.runtime:runtime-livedata:1.0.4")
-    implementation ("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation ("androidx.activity:activity-compose:1.8.2")
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
 
 // Retrofit for network requests
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
 // Coroutines for asynchronous programming
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
 
     val lifecycle_version = "2.6.2"
     val arch_version = "2.2.0"
@@ -90,9 +130,9 @@ dependencies {
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     // ViewModel utilities for Compose
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.1")
+    implementation("androidx.activity:activity-compose:1.8.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")

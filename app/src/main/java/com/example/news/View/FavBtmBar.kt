@@ -15,12 +15,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,13 +26,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
-import androidx.navigation.NavController
 
 @Composable
-fun ButtomAppBarComp() {
+fun ButtomAppBarFavorit() {
     val UrlHandler = LocalUriHandler.current
     val mContext = LocalContext.current
 
@@ -62,7 +56,7 @@ fun ButtomAppBarComp() {
                     .weight(1f)
                     .background(Color.White)
                     .clickable {
-                        mContext.startActivity(Intent(mContext, FavoriteCartView::class.java))
+                        mContext.startActivity(Intent(mContext, Home::class.java))
 
                     }
 
@@ -78,7 +72,7 @@ fun ButtomAppBarComp() {
                 ) {
                     Icon(
 
-                        Icons.Filled.Favorite,
+                        Icons.Filled.Home,
                         "",
                         tint = Color(0xFFFF3A44),
                         modifier = Modifier
@@ -122,5 +116,5 @@ fun ButtomAppBarComp() {
 
 
         }
-}
+    }
 }

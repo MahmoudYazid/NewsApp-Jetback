@@ -14,16 +14,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
@@ -31,12 +38,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.example.news.Model.AppDatabase
 import com.example.news.Model.NewsResponseClass
+import com.example.news.Model.articlesDatabaseEntity
+import com.example.news.R
+import kotlinx.coroutines.launch
 
 @Composable
 fun ArticleCoulmn(){
@@ -62,6 +74,7 @@ fun ArticleCoulmn(){
             .fillMaxHeight(),
             verticalArrangement = Arrangement.spacedBy(10.dp)){
 
+
             DataAllNews.value?.articles?.map { ArticleItem->
                 Card(ArticleItem?.urlToImage.toString(),ArticleItem?.title.toString(), ArticleItem?.author.toString(),ArticleItem?.url.toString())
 
@@ -76,6 +89,8 @@ fun ArticleCoulmn(){
 fun Card(img:String,TextAtricle:String,Auther:String,openUrl:String) {
     val brightness = -80f
     val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     val colorMatrix = floatArrayOf(
         1f, 0f, 0f, 0f, brightness,
@@ -99,7 +114,11 @@ fun Card(img:String,TextAtricle:String,Auther:String,openUrl:String) {
                     15.dp,
                     15.dp
                 )
-            ) // Adjust the corner radius as needed
+            )
+            .paint(
+                painterResource(id = R.drawable.blackimage),
+                contentScale = ContentScale.FillBounds
+            )
 
     ) {
         Image(
@@ -109,7 +128,7 @@ fun Card(img:String,TextAtricle:String,Auther:String,openUrl:String) {
             ,modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxSize()
-                .blur(15.dp,15.dp)
+                .blur(15.dp, 15.dp)
 
                 .fillMaxWidth(),
             contentScale = ContentScale.FillHeight
@@ -125,6 +144,33 @@ fun Card(img:String,TextAtricle:String,Auther:String,openUrl:String) {
             verticalArrangement = Arrangement.Bottom
 
         ) {
+            Icon(
+
+                Icons.Filled.Favorite,
+                "",
+                tint = Color(0xFFFF3A44),
+                modifier = Modifier
+                    .size(30.dp)
+                    .background(Color.Transparent)
+                    .clickable {
+
+                        val database = AppDatabase.getInstance(context.applicationContext)
+                        val articleDao = database.ArticleDaoFunction()
+                        scope.launch {
+                            val newArticle = articlesDatabaseEntity(
+                                img = img.toString(),
+                                title = TextAtricle.toString(),
+                                link = openUrl.toString(),
+                                id = null
+
+                            )
+
+                            articleDao.insertAll(newArticle)
+                        }
+
+                    }
+
+            )
             Text(text =Auther ,
 
                 fontWeight = FontWeight.W500,

@@ -19,28 +19,40 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import com.example.news.Model.AppDatabase
 import com.example.news.Model.NewsResponseClass
+import com.example.news.Model.articlesDatabaseEntity
+import com.example.news.R
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Call
@@ -57,6 +69,7 @@ fun LetestNewsScroller(){
         )
     }
     LaunchedEffect(key1 = Unit, {
+
         NewsState.value = RetrofitInstance.apiService.getAllNews()
         })
 
@@ -96,6 +109,8 @@ fun LetestNewsScroller(){
 @Composable
 fun Cardnews(img:String,TextAtricle:String,Auther:String,OpenUrl:String) {
     val brightness = -80f
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
     val colorMatrix = floatArrayOf(
         1f, 0f, 0f, 0f, brightness,
@@ -111,6 +126,7 @@ fun Cardnews(img:String,TextAtricle:String,Auther:String,OpenUrl:String) {
             .clickable {
                 uriHandler.openUri(OpenUrl)
             }
+
             .clip(
                 shape = RoundedCornerShape(
                     15.dp,
@@ -119,18 +135,18 @@ fun Cardnews(img:String,TextAtricle:String,Auther:String,OpenUrl:String) {
                     15.dp
                 )
             ) // Adjust the corner radius as needed
-            .background(Color.White)
+            .paint(painterResource(id = R.drawable.blackimage), contentScale = ContentScale.FillHeight)
 
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(img
-            ),
+        AsyncImage(
+            model = img,
+
             contentDescription = null,
             colorFilter = ColorFilter.colorMatrix(ColorMatrix(colorMatrix))
             ,modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxSize()
-                .blur(15.dp,15.dp)
+                .blur(15.dp, 15.dp)
 
                 .fillMaxWidth(),
             contentScale = ContentScale.FillHeight
@@ -140,15 +156,42 @@ fun Cardnews(img:String,TextAtricle:String,Auther:String,OpenUrl:String) {
 
         Column(
             modifier =
-                Modifier
-                    .fillMaxHeight()
-                    .padding(60.dp)
+            Modifier
+                .fillMaxHeight()
+                .padding(60.dp)
 
-                    .fillMaxWidth(),
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
 
         ) {
+            Icon(
+
+                Icons.Filled.Favorite,
+                "",
+                tint = Color(0xFFFF3A44),
+                modifier = Modifier
+                    .size(30.dp)
+                    .background(Color.Transparent)
+                    .clickable {
+
+                        val database = AppDatabase.getInstance(context.applicationContext)
+                        val articleDao = database.ArticleDaoFunction()
+                        scope.launch {
+                            val newArticle = articlesDatabaseEntity(
+                                img = img.toString(),
+                                title = TextAtricle.toString(),
+                                link = OpenUrl.toString(),
+                                id = null
+
+                            )
+
+                            articleDao.insertAll(newArticle)
+                        }
+
+                    }
+
+            )
             Text(text =Auther ,
 
                 fontWeight = FontWeight.W500,
