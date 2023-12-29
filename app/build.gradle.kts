@@ -9,7 +9,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.news"
+        applicationId = "com.yazid.news"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
